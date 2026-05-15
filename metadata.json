@@ -1,0 +1,12 @@
+{
+  "name": "Remix: OutbreakRadar",
+  "description": "An AI-powered disease outbreak prediction and early warning system for public health departments featuring synthetic data generation, ML-based risk assessment, and interactive explainability dashboards.",
+  "requestFramePermissions": [
+    "camera",
+    "microphone",
+    "geolocation"
+  ],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}
