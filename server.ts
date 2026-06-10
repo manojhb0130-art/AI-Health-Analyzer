@@ -316,10 +316,13 @@ app.get("/api/health", (req, res) => {
   res.json({ status: "ok", environment: process.env.NODE_ENV || "development" });
 });
 
+const getLatestDataStmt = dbCheck.prepare("SELECT * FROM timeseries_data ORDER BY date DESC LIMIT 90");
+const getLatestAlertsStmt = dbCheck.prepare("SELECT * FROM alerts ORDER BY date DESC LIMIT 5");
+
 // Dashboard Data
 app.get("/api/dashboard", authenticateToken, (req, res) => {
-  const latestData = dbCheck.prepare("SELECT * FROM timeseries_data ORDER BY date DESC LIMIT 90").all().reverse();
-  const latestAlerts = dbCheck.prepare("SELECT * FROM alerts ORDER BY date DESC LIMIT 5").all();
+  const latestData = getLatestDataStmt.all().reverse();
+  const latestAlerts = getLatestAlertsStmt.all();
   
   if (latestData.length === 0) {
     return res.json({ data: [], alerts: [], metrics: { totalCases7d: 0, avgRisk: 0, alertsToday: 0 } });
