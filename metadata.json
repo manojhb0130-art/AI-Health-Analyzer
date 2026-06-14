@@ -1,6 +1,6 @@
 {
-  "name": "Remix: OutbreakRadar",
-  "description": "An AI-powered disease outbreak prediction and early warning system for public health departments featuring synthetic data generation, ML-based risk assessment, and interactive explainability dashboards.",
+  "name": "Remix: EcoSphere Sustainability Platform",
+  "description": "An AI-powered comprehensive climate and sustainability software platform to monitor environmental impact, measure carbon footprints, and provide resource efficiency insights.",
   "requestFramePermissions": [
     "camera",
     "microphone",
