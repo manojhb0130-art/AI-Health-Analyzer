@@ -53,18 +53,15 @@ type View = 'dashboard' | 'alerts' | 'explain' | 'forecast' | 'ingest' | 'login'
 
 interface TimeseriesData {
   date: string;
-  temp: number;
-  humidity: number;
-  rainfall: number;
-  standing_water: number;
-  er_visits: number;
-  lab_positivity: number;
-  pharmacy_sales: number;
-  social_mentions: number;
-  mobility_index: number;
-  wastewater_rna: number;
-  case_count: number;
-  is_outbreak: number;
+  carbon_footprint: number;
+  energy_consumption: number;
+  water_usage: number;
+  waste_generated: number;
+  air_quality_index: number;
+  renewable_energy_pct: number;
+  supply_chain_emissions: number;
+  soil_health_index: number;
+  is_violation: number;
 }
 
 interface Alert {
@@ -288,11 +285,11 @@ export default function App() {
             <div className="p-2 bg-blue-600 rounded-lg">
               <Zap className="w-6 h-6" />
             </div>
-            <h1 className="text-2xl font-bold tracking-tight">OutbreakRadar</h1>
+            <h1 className="text-2xl font-bold tracking-tight">EcoSphere</h1>
           </div>
           
           <h2 className="text-xl font-semibold mb-2">Welcome Back</h2>
-          <p className="text-zinc-400 text-sm mb-6">Enter your credentials to access the early warning system.</p>
+          <p className="text-zinc-400 text-sm mb-6">Enter your credentials to access the enterprise sustainability platform.</p>
           
           <form onSubmit={handleLogin} className="space-y-4">
             <div>
@@ -353,7 +350,7 @@ export default function App() {
             <div className="p-2 bg-blue-600 rounded-lg">
               <Zap className="w-6 h-6" />
             </div>
-            <h1 className="text-2xl font-bold tracking-tight">OutbreakRadar</h1>
+            <h1 className="text-2xl font-bold tracking-tight">EcoSphere</h1>
           </div>
           
           <h2 className="text-xl font-semibold mb-2">Forgot Password</h2>
@@ -365,7 +362,7 @@ export default function App() {
               <input 
                 name="email"
                 type="email" 
-                placeholder="admin@outbreakradar.gov"
+                placeholder="admin@ecosphere.com"
                 className="w-full px-4 py-2 bg-black border border-zinc-800 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600 text-sm"
                 required
               />
@@ -407,7 +404,7 @@ export default function App() {
             <div className="p-2 bg-blue-600 rounded-lg">
               <Zap className="w-6 h-6" />
             </div>
-            <h1 className="text-2xl font-bold tracking-tight">OutbreakRadar</h1>
+            <h1 className="text-2xl font-bold tracking-tight">EcoSphere</h1>
           </div>
           
           <h2 className="text-xl font-semibold mb-2">Reset Password</h2>
@@ -419,7 +416,7 @@ export default function App() {
               <input 
                 name="email"
                 type="email" 
-                placeholder="admin@outbreakradar.gov"
+                placeholder="admin@ecosphere.com"
                 className="w-full px-4 py-2 bg-black border border-zinc-800 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600 text-sm"
                 required
               />
@@ -473,16 +470,16 @@ export default function App() {
           <div className="p-1.5 bg-blue-600 rounded-md">
             <Zap className="w-5 h-5 text-white" />
           </div>
-          <span className="font-bold text-lg tracking-tight">OutbreakRadar</span>
+          <span className="font-bold text-lg tracking-tight">EcoSphere</span>
         </div>
 
         <nav className="space-y-2 flex-1">
-          <SidebarItem icon={Home} label="Overview" active={view === 'dashboard'} onClick={() => setView('dashboard')} />
-          <SidebarItem icon={Bell} label="Alert Center" active={view === 'alerts'} onClick={() => setView('alerts')} />
-          <SidebarItem icon={Activity} label="ML Explainability" active={view === 'explain'} onClick={() => setView('explain')} />
-          <SidebarItem icon={TrendingUp} label="Forecasting" active={view === 'forecast'} onClick={() => setView('forecast')} />
-          <SidebarItem icon={Database} label="Data Ingestion" active={view === 'ingest'} onClick={() => setView('ingest')} />
-          <SidebarItem icon={Navigation} label="Sentinel Monitor" active={view === 'sentinel'} onClick={() => setView('sentinel')} />
+          <SidebarItem icon={Home} label="ESG Dashboard" active={view === 'dashboard'} onClick={() => setView('dashboard')} />
+          <SidebarItem icon={Bell} label="Environmental Alerts" active={view === 'alerts'} onClick={() => setView('alerts')} />
+          <SidebarItem icon={Activity} label="AI Insights & Efficiency" active={view === 'explain'} onClick={() => setView('explain')} />
+          <SidebarItem icon={TrendingUp} label="Climate Resilience Planning" active={view === 'forecast'} onClick={() => setView('forecast')} />
+          <SidebarItem icon={Database} label="IoT Data Hub" active={view === 'ingest'} onClick={() => setView('ingest')} />
+          <SidebarItem icon={Navigation} label="Global Environmental Monitor" active={view === 'sentinel'} onClick={() => setView('sentinel')} />
           {user?.role === 'admin' && (
             <SidebarItem icon={Settings} label="User Management" active={view === 'users'} onClick={() => { setView('users'); fetchUsers(); }} />
           )}
@@ -513,7 +510,7 @@ export default function App() {
         <header className="h-16 border-b border-zinc-800 flex items-center justify-between px-8 sticky top-0 bg-black/80 backdrop-blur-md z-10">
           <div className="flex items-center gap-4">
             <h2 className="text-sm font-semibold text-zinc-300 uppercase tracking-widest">
-              {view === 'dashboard' ? 'Health Surveillance Dashboard' : view.toUpperCase()}
+              {view === 'dashboard' ? 'ESG Sustainability Dashboard' : view.toUpperCase()}
             </h2>
           </div>
           <div className="flex items-center gap-4">
@@ -548,8 +545,8 @@ export default function App() {
                     color={metrics?.avgRisk > 70 ? "bg-red-600" : metrics?.avgRisk > 40 ? "bg-yellow-600" : "bg-emerald-600"} 
                   />
                   <MetricCard 
-                    title="Weekly Cases" 
-                    value={metrics?.totalCases7d || 0} 
+                    title="Weekly Carbon Footprint"
+                    value={`${Math.round(metrics?.totalCarbon7d || 0)} tons`}
                     subValue="+8% vs avg"
                     trend="up"
                     icon={TrendingUp} 
@@ -575,10 +572,10 @@ export default function App() {
                 <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
                   <div className="lg:col-span-2 border border-zinc-800 bg-zinc-900/50 rounded-2xl p-6">
                     <div className="flex items-center justify-between mb-6">
-                      <h3 className="text-lg font-semibold">Incident Surveillance (90 Days)</h3>
+                      <h3 className="text-lg font-semibold">Carbon Footprint Trend (90 Days)</h3>
                       <div className="flex gap-2">
                         <span className="flex items-center gap-1.5 text-xs text-zinc-500">
-                          <span className="w-2 h-2 rounded-full bg-blue-500"></span> Observed Cases
+                          <span className="w-2 h-2 rounded-full bg-blue-500"></span> Reported Emissions
                         </span>
                         <span className="flex items-center gap-1.5 text-xs text-zinc-500">
                           <span className="w-2 h-2 rounded-full bg-zinc-500 border border-zinc-400"></span> Prediction
@@ -600,8 +597,8 @@ export default function App() {
                             contentStyle={{ backgroundColor: '#18181b', borderColor: '#27272a', borderRadius: '8px' }}
                             itemStyle={{ color: '#f4f4f5' }}
                           />
-                          <Area type="monotone" dataKey="case_count" stroke="#3b82f6" fillOpacity={1} fill="url(#colorCases)" />
-                          <Line type="monotone" dataKey="case_count" stroke="#60a5fa" strokeWidth={2} dot={false} />
+                          <Area type="monotone" dataKey="carbon_footprint" stroke="#3b82f6" fillOpacity={1} fill="url(#colorCases)" />
+                          <Line type="monotone" dataKey="carbon_footprint" stroke="#60a5fa" strokeWidth={2} dot={false} />
                           <defs>
                             <linearGradient id="colorCases" x1="0" y1="0" x2="0" y2="1">
                               <stop offset="5%" stopColor="#3b82f6" stopOpacity={0.3}/>
@@ -643,7 +640,7 @@ export default function App() {
                 {/* Secondary Charts */}
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
                   <div className="border border-zinc-800 bg-zinc-900/50 rounded-2xl p-6">
-                    <h3 className="text-lg font-semibold mb-6">Wastewater Viral Load</h3>
+                    <h3 className="text-lg font-semibold mb-6">Energy Consumption & Efficiency</h3>
                     <div className="h-[250px]">
                       <ResponsiveContainer width="100%" height="100%">
                         <AreaChart data={data}>
@@ -658,13 +655,13 @@ export default function App() {
                           <Tooltip 
                             contentStyle={{ backgroundColor: '#18181b', borderColor: '#27272a', borderRadius: '8px' }}
                           />
-                          <Area type="monotone" dataKey="wastewater_rna" stroke="#8b5cf6" fill="#8b5cf6" fillOpacity={0.1} />
+                          <Area type="monotone" dataKey="energy_consumption" stroke="#8b5cf6" fill="#8b5cf6" fillOpacity={0.1} />
                         </AreaChart>
                       </ResponsiveContainer>
                     </div>
                   </div>
                   <div className="border border-zinc-800 bg-zinc-900/50 rounded-2xl p-6">
-                    <h3 className="text-lg font-semibold mb-6">Environmental & Social Trends</h3>
+                    <h3 className="text-lg font-semibold mb-6">Resource Usage & Air Quality</h3>
                     <div className="h-[250px]">
                       <ResponsiveContainer width="100%" height="100%">
                         <LineChart data={data}>
@@ -677,9 +674,9 @@ export default function App() {
                           />
                           <YAxis stroke="#52525b" fontSize={10} />
                           <Tooltip contentStyle={{ backgroundColor: '#18181b', borderColor: '#27272a', borderRadius: '8px' }} />
-                          <Line type="monotone" dataKey="social_mentions" stroke="#ec4899" dot={false} />
-                          <Line type="monotone" dataKey="temp" stroke="#f97316" dot={false} />
-                          <Line type="monotone" dataKey="pharmacy_sales" stroke="#22c55e" dot={false} />
+                          <Line type="monotone" dataKey="water_usage" stroke="#ec4899" dot={false} />
+                          <Line type="monotone" dataKey="air_quality_index" stroke="#f97316" dot={false} />
+                          <Line type="monotone" dataKey="renewable_energy_pct" stroke="#22c55e" dot={false} />
                         </LineChart>
                       </ResponsiveContainer>
                     </div>
@@ -770,10 +767,10 @@ export default function App() {
 
                   <div className="w-full md:w-80 space-y-6">
                     <div className="p-6 border border-zinc-800 bg-zinc-900 rounded-2xl">
-                      <h4 className="text-sm font-semibold mb-4">What-If Simulator</h4>
+                      <h4 className="text-sm font-semibold mb-4">Sustainability Action Simulator</h4>
                       <p className="text-xs text-zinc-500 mb-6">Adjust key metrics to see the simulated risk impact.</p>
                       
-                      {['Wastewater', 'Social Signals', 'ER Visits'].map(label => (
+                      {['Energy Usage', 'Supply Chain Emissions', 'Waste Generated'].map(label => (
                         <div key={label} className="space-y-2 mb-6">
                           <div className="flex justify-between text-xs">
                             <span className="text-zinc-400">{label}</span>
@@ -805,7 +802,7 @@ export default function App() {
                  <div className="border border-zinc-800 bg-zinc-900 rounded-2xl p-8">
                   <div className="flex items-center justify-between mb-8">
                     <div>
-                      <h2 className="text-2xl font-bold">Infectious Disease Forecast</h2>
+                      <h2 className="text-2xl font-bold">Carbon Footprint & Emissions Forecast</h2>
                       <p className="text-zinc-400">14-day forward projection (Confidence Interval 95%)</p>
                     </div>
                     <div className="flex gap-2">
@@ -836,8 +833,8 @@ export default function App() {
                         />
                         <YAxis stroke="#52525b" fontSize={10} />
                         <Tooltip contentStyle={{ backgroundColor: '#18181b', borderColor: '#27272a' }} />
-                        <Area type="monotone" dataKey="case_count" stroke="#3b82f6" fill="#3b82f6" fillOpacity={0.1} />
-                        <Area type="monotone" dataKey="predicted_cases" stroke="#60a5fa" fill="#60a5fa" fillOpacity={0.3} strokeDasharray="5 5" />
+                        <Area type="monotone" dataKey="carbon_footprint" stroke="#3b82f6" fill="#3b82f6" fillOpacity={0.1} />
+                        <Area type="monotone" dataKey="predicted_carbon" stroke="#60a5fa" fill="#60a5fa" fillOpacity={0.3} strokeDasharray="5 5" />
                         <Area type="monotone" dataKey="confidence_upper" stroke="none" fill="#3b82f6" fillOpacity={0.05} />
                       </AreaChart>
                     </ResponsiveContainer>
@@ -849,7 +846,7 @@ export default function App() {
                     </div>
                     <div>
                       <p className="text-sm font-medium text-zinc-200">Peak Prediction Window</p>
-                      <p className="text-xs text-zinc-500 mt-1">Our models predict a 65% probability of peak incidence between June 12-15 based on current wastewater trends.</p>
+                      <p className="text-xs text-zinc-500 mt-1">Our models predict a 65% probability of exceeding the carbon budget threshold between June 12-15 based on current energy trends.</p>
                     </div>
                   </div>
                  </div>
@@ -912,7 +909,7 @@ export default function App() {
                  <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                    <div className="p-8 border border-zinc-800 bg-zinc-900 rounded-2xl space-y-6">
                      <h3 className="text-xl font-bold">Manual Data Upload</h3>
-                     <p className="text-zinc-400 text-sm">Upload standardized CSV exports from health surveillance nodes.</p>
+                     <p className="text-zinc-400 text-sm">Upload standardized CSV exports from environmental sensors and IoT nodes.</p>
                      
                      <div className="border-2 border-dashed border-zinc-800 rounded-xl p-10 flex flex-col items-center justify-center text-zinc-600 hover:border-blue-600/50 hover:bg-blue-600/5 transition-all cursor-pointer">
                         <Upload className="w-10 h-10 mb-4" />
@@ -921,7 +918,7 @@ export default function App() {
                      </div>
                      
                      <div className="pt-4 space-y-3">
-                        {['er_surveil_v2.csv', 'env_monitoring.csv'].map(f => (
+                        {['energy_grid_v2.csv', 'env_monitoring.csv'].map(f => (
                           <div key={f} className="flex items-center justify-between p-3 bg-black rounded-lg border border-zinc-800">
                              <div className="flex items-center gap-3">
                                <FileText className="w-4 h-4 text-zinc-500" />
@@ -939,9 +936,9 @@ export default function App() {
                         <div className="space-y-4">
                            {[
                              { name: 'Environmental Data', status: 'Online', time: '5m' },
-                             { name: 'Health System (EHR)', status: 'Online', time: '12m' },
-                             { name: 'Social Media Scraper', status: 'Online', time: '1m' },
-                             { name: 'Wastewater Analysis', status: 'Syncing', time: '4h' }
+                             { name: 'Energy Grids (IoT)', status: 'Online', time: '12m' },
+                             { name: 'Supply Chain Scraper', status: 'Online', time: '1m' },
+                             { name: 'Waste Management Systems', status: 'Syncing', time: '4h' }
                            ].map(pipe => (
                              <div key={pipe.name} className="flex items-center justify-between">
                                <span className="text-xs text-zinc-400">{pipe.name}</span>
